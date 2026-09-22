@@ -33,6 +33,21 @@ npm run tauri dev
 npm run tauri build
 ```
 
+### CI 自动打包
+
+推送到 `main`（或在 Actions 里手动 **Run workflow**）会自动构建：
+
+- macOS Apple Silicon（`.dmg` / `.app`）
+- macOS Intel
+- Windows
+- Linux
+
+产物在对应 Actions 运行页的 **Artifacts** 下载（保留约 90 天）。未配置 Apple 开发者证书时使用 ad-hoc 签名；本机首次打开若被拦截，可在「系统设置 → 隐私与安全性」里允许，或执行：
+
+```bash
+xattr -cr /path/to/GitSwitch.app
+```
+
 ## 使用提示
 
 1. 左侧「添加」选择带 `.git` 的目录
