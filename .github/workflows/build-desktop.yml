@@ -74,4 +74,6 @@ jobs:
         with:
           args: ${{ matrix.args }}
           uploadWorkflowArtifacts: true
-          workflowArtifactNamePattern: GitSwitch-[name]-[platform]-[arch]-[version]
+          # Include [bundle] so dmg/app/deb/rpm/nsis/msi each get a unique artifact name.
+          # Without it, upload-artifact v4 fails with 409 Conflict on the second bundle.
+          workflowArtifactNamePattern: GitSwitch-[platform]-[arch]-[bundle]-[version]
