@@ -42,11 +42,18 @@ npm run tauri build
 - Windows
 - Linux
 
-产物在对应 Actions 运行页的 **Artifacts** 下载（保留约 90 天）。未配置 Apple 开发者证书时使用 ad-hoc 签名；本机首次打开若被拦截，可在「系统设置 → 隐私与安全性」里允许，或执行：
+产物会同时：
+
+1. **GitHub Releases**（推荐）：发布到 [Releases](https://github.com/TonyChan-hub/gitSwitch/releases) 标签 `v0.1.0`（随 `tauri.conf.json` 版本），安装包长期可下
+2. **Actions Artifacts**：对应运行页的 Artifacts（约 90 天）
+
+未配置 Apple 开发者证书时使用 ad-hoc 签名；本机首次打开若被拦截，可在「系统设置 → 隐私与安全性」里允许，或执行：
 
 ```bash
 xattr -cr /path/to/GitSwitch.app
 ```
+
+若 Release 上传报 `Resource not accessible by integration`，到仓库 **Settings → Actions → General → Workflow permissions** 勾选 **Read and write permissions**。
 
 ## 使用提示
 

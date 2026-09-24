@@ -1,5 +1,5 @@
-# Build desktop installers on every push to main.
-# Download packages from the Actions run → Artifacts.
+# Build desktop installers on every push to main, upload Actions Artifacts,
+# and publish the same packages to a GitHub Release (permanent archive).
 # Official guide: https://v2.tauri.app/distribute/pipelines/github/
 
 name: Build Desktop
@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build-tauri:
     permissions:
-      contents: read
+      contents: write
 
     strategy:
       fail-fast: false
@@ -73,6 +73,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: ${{ matrix.args }}
+          tagName: v__VERSION__
+          releaseName: GitSwitch v__VERSION__
+          releaseBody: |
+            Desktop packages built by CI.
+
+            | Platform | Files |
+            | --- | --- |
+            | macOS Apple Silicon | `.dmg` |
+            | macOS Intel | `.dmg` |
+            | Windows | `.msi` / `.exe` (NSIS) |
+            | Linux | `.AppImage` / `.deb` / `.rpm` |
+
+            Ad-hoc signed on macOS (no Apple Developer cert). If Gatekeeper blocks the app:
+            `xattr -cr /path/to/GitSwitch.app`
+          releaseDraft: false
+          prerelease: false
           uploadWorkflowArtifacts: true
           # Include [bundle] so dmg/app/deb/rpm/nsis/msi each get a unique artifact name.
           # Without it, upload-artifact v4 fails with 409 Conflict on the second bundle.
